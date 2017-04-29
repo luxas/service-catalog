@@ -1,4 +1,4 @@
-apiVersion: rbac.authorization.k8s.io/v1beta1
+apiVersion: rbac.authorization.k8s.io/v1alpha1
 kind: ClusterRole
 metadata:
   name: servicecatalog-controller-manager
@@ -35,7 +35,7 @@ metadata:
   name: servicecatalog-controller-manager
   namespace: {{ .Release.Namespace }}
 ---
-apiVersion: rbac.authorization.k8s.io/v1beta1
+apiVersion: rbac.authorization.k8s.io/v1alpha1
 kind: ClusterRoleBinding
 metadata:
   name: servicecatalog-controller-manager
