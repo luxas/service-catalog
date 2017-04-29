@@ -1,0 +1,8 @@
+{{- if .Values.deployBroker }}
+apiVersion: servicecatalog.k8s.io/v1alpha1
+kind: Broker
+metadata:
+  name: ups-broker
+spec:
+  url: http://{{ template "fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local
+{{ end }}
