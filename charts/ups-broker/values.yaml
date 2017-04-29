@@ -4,4 +4,4 @@ image: quay.io/kubernetes-service-catalog/user-broker:v0.0.5
 # ImagePullPolicy; valid values are "IfNotPresent", "Never", and "Always"
 imagePullPolicy: Always
 # Specifies whether to deploy the Broker object for this Deployment
-deployBroker: false
+deployBroker: true
