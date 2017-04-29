@@ -10,5 +10,6 @@ spec:
     namespace: {{ .Release.Namespace }}
     name: {{ template "fullname" . }}-apiserver
   caBundle: {{ .Values.apiserver.tls.ca }}
-  priority: 100
+  insecureSkipTLSVerify: true
+  priority: 150
 {{ end }}
