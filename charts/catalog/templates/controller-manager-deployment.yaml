@@ -1,4 +1,10 @@
-apiVersion: rbac.authorization.k8s.io/v1alpha1
+kind: ServiceAccount
+apiVersion: v1
+metadata:
+  name: servicecatalog-controller-manager
+  namespace: {{ .Release.Namespace }}
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRole
 metadata:
   name: servicecatalog-controller-manager
@@ -29,13 +35,7 @@ rules:
   resources: ["*"]
   verbs: ["*"]
 ---
-kind: ServiceAccount
-apiVersion: v1
-metadata:
-  name: servicecatalog-controller-manager
-  namespace: {{ .Release.Namespace }}
----
-apiVersion: rbac.authorization.k8s.io/v1alpha1
+apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRoleBinding
 metadata:
   name: servicecatalog-controller-manager
@@ -43,6 +43,45 @@ roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
   name: servicecatalog-controller-manager
+subjects:
+- kind: ServiceAccount
+  name: servicecatalog-controller-manager
+  namespace: {{ .Release.Namespace }}
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: Role
+metadata:
+  name: system::leader-locking-service-catalog-controller-manager
+  namespace: kube-system
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - configmaps
+  - endpoints
+  verbs:
+  - create
+  - watch
+- apiGroups:
+  - ""
+  resourceNames:
+  - service-catalog-controller-manager
+  resources:
+  - configmaps
+  - endpoints
+  verbs:
+  - get
+  - update
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: RoleBinding
+metadata:
+  name: system::leader-locking-service-catalog-controller-manager
+  namespace: kube-system
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: system::leader-locking-service-catalog-controller-manager
 subjects:
 - kind: ServiceAccount
   name: servicecatalog-controller-manager
